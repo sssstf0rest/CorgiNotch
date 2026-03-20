@@ -11,7 +11,8 @@ import UniformTypeIdentifiers
 struct FileShelfView: View {
     
     @StateObject var notchDefaults = NotchDefaults.shared
-    
+    @StateObject var shelfDefaults = ShelfDefaults.shared
+
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var expandedNotchViewModel: ExpandedNotchViewModel
     
@@ -20,17 +21,19 @@ struct FileShelfView: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            AirDropView(
-                notchViewModel: notchViewModel,
-                onError: { error in
-                    self.errorMessage = error.localizedDescription
-                    self.showError = true
-                }
-            )
-            .frame(
-                width: notchViewModel.notchSize.height * 3,
-                height: notchViewModel.notchSize.height * 3
-            )
+            if shelfDefaults.isAirDropEnabled {
+                AirDropView(
+                    notchViewModel: notchViewModel,
+                    onError: { error in
+                        self.errorMessage = error.localizedDescription
+                        self.showError = true
+                    }
+                )
+                .frame(
+                    width: notchViewModel.notchSize.height * 3,
+                    height: notchViewModel.notchSize.height * 3
+                )
+            }
             
             ZStack {
                 

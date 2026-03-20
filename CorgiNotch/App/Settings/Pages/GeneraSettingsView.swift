@@ -9,10 +9,12 @@ import SwiftUI
 import LaunchAtLogin
 
 struct GeneraSettingsView: View {
-    
+
     @StateObject var appDefaults = AppDefaults.shared
     @StateObject var notchDefaults = NotchDefaults.shared
-    
+
+    @State private var isAccessibilityTrusted: Bool = AXIsProcessTrusted()
+
     var body: some View {
         Form {
             Section {
@@ -27,7 +29,7 @@ struct GeneraSettingsView: View {
                     }
                     .labelsHidden()
                 }
-                
+
                 SettingsRow(
                     title: "Status Icon",
                     subtitle: "Show icon in menu bar for easy access",
@@ -39,7 +41,7 @@ struct GeneraSettingsView: View {
             } header: {
                 Text("App")
             }
-            
+
             Section {
                 SettingsRow(
                     title: "Disable System HUD",
@@ -50,18 +52,14 @@ struct GeneraSettingsView: View {
                     Toggle("", isOn: $appDefaults.disableSystemHUD)
                         .onChange(of: appDefaults.disableSystemHUD) { _, newValue in
                             if newValue {
-                                if !AXIsProcessTrusted() {
-                                    let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
-                                    AXIsProcessTrustedWithOptions(options as CFDictionary)
-                                }
-                                MediaKeyManager.shared.start()
+                                requestAccessibilityAndStart()
                             } else {
                                 MediaKeyManager.shared.stop()
                             }
                         }
                 }
-                
-                if appDefaults.disableSystemHUD && !AXIsProcessTrusted() {
+
+                if appDefaults.disableSystemHUD && !isAccessibilityTrusted {
                     VStack(alignment: .leading, spacing: 8) {
                         Label {
                             Text("Accessibility permissions are required.")
@@ -70,14 +68,26 @@ struct GeneraSettingsView: View {
                         }
                             .font(.caption)
                             .foregroundStyle(.red)
-                        
-                        Button("Open System Settings") {
-                            let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
-                            AXIsProcessTrustedWithOptions(options as CFDictionary)
+
+                        HStack(spacing: 12) {
+                            Button("Open System Settings") {
+                                NSWorkspace.shared.open(
+                                    URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!
+                                )
+                            }
+                            .font(.caption)
+
+                            Button("Check Again") {
+                                refreshAccessibilityStatus()
+                            }
+                            .font(.caption)
                         }
-                        .font(.caption)
+
+                        Text("Tip: If you just rebuilt in Xcode, toggle CorgiNotch off and on again in System Settings > Privacy & Security > Accessibility.")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
                     }
-                    .padding(.leading, 44) // Indent to align with text
+                    .padding(.leading, 44)
                 }
             } header: {
                 Text("System")
@@ -85,6 +95,34 @@ struct GeneraSettingsView: View {
         }
         .formStyle(.grouped)
         .navigationTitle("General")
+        .onAppear {
+            refreshAccessibilityStatus()
+        }
+        .onReceive(
+            NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
+        ) { _ in
+            refreshAccessibilityStatus()
+        }
+    }
+
+    private func refreshAccessibilityStatus() {
+        isAccessibilityTrusted = AXIsProcessTrusted()
+
+        if appDefaults.disableSystemHUD && isAccessibilityTrusted {
+            MediaKeyManager.shared.start()
+        }
+    }
+
+    private func requestAccessibilityAndStart() {
+        let trusted = AXIsProcessTrusted()
+        isAccessibilityTrusted = trusted
+
+        if !trusted {
+            let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
+            AXIsProcessTrustedWithOptions(options as CFDictionary)
+        }
+
+        MediaKeyManager.shared.start()
     }
 }
 

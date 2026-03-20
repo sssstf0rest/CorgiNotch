@@ -15,7 +15,8 @@ struct NotchView: View {
     @Environment(\.openSettings) private var openSettings
     
     @StateObject var notchDefaults = NotchDefaults.shared
-    
+    @StateObject var shelfDefaults = ShelfDefaults.shared
+
     @StateObject var notchViewModel: NotchViewModel
     @StateObject var expandedNotchViewModel: ExpandedNotchViewModel = .init()
     
@@ -82,6 +83,10 @@ struct NotchView: View {
                 .dropDestination(
                     for: URL.self,
                     action: { fileURLs, _ in
+                        guard shelfDefaults.isFileShelfEnabled else {
+                            return false
+                        }
+
                         DispatchQueue.global(qos: .utility).async {
                             guard let groupModel = ShelfFileGroupModel(
                                 urls: fileURLs
@@ -89,7 +94,7 @@ struct NotchView: View {
                                 print("groupModel could not be initialized")
                                 return
                             }
-                            
+
                             DispatchQueue.main.async {
                                 withAnimation {
                                     expandedNotchViewModel.shelfFileGroups.append(
@@ -98,10 +103,11 @@ struct NotchView: View {
                                 }
                             }
                         }
-                        
+
                         return true
                     },
                     isTargeted: {
+                        guard shelfDefaults.isFileShelfEnabled else { return }
                         notchViewModel.isDropTarget = $0
                     }
                 )
@@ -109,10 +115,10 @@ struct NotchView: View {
                     of: notchViewModel.isDropTarget
                 ) { oldValue, newValue in
                     guard oldValue != newValue else { return }
-                    
+
                     if newValue {
                         expandedNotchViewModel.currentView = .Shelf
-                        
+
                         notchViewModel.onTap()
                     } else {
                         notchViewModel.onHover(

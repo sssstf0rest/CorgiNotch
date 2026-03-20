@@ -15,7 +15,27 @@ class ShelfDefaults: ObservableObject {
     static let shared = ShelfDefaults()
     
     private init() {}
-    
+
+    @PrimitiveUserDefault(
+        PREFIX + "FileShelfEnabled",
+        defaultValue: true
+    )
+    var isFileShelfEnabled: Bool {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+
+    @PrimitiveUserDefault(
+        PREFIX + "AirDropEnabled",
+        defaultValue: true
+    )
+    var isAirDropEnabled: Bool {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+
     @CodableUserDefault(
         PREFIX + "FileGroups",
         defaultValue: []

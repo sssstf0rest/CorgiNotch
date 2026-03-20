@@ -116,13 +116,33 @@ struct CorgiSettingsView: View {
             ) else {
                 return
             }
-            
+
             window.toolbarStyle = .unified
             window.styleMask.insert(.resizable)
             window.styleMask.insert(.miniaturizable)
             window.styleMask.insert(.closable)
-            
+
+            window.delegate = SettingsWindowDelegate.shared
+
+            NSApp.setActivationPolicy(.regular)
             NSApp.activate()
+        }
+    }
+}
+
+class SettingsWindowDelegate: NSObject, NSWindowDelegate {
+
+    static let shared = SettingsWindowDelegate()
+
+    func windowWillClose(_ notification: Notification) {
+        // Defer the policy change to let the window finish closing
+        DispatchQueue.main.async {
+            let hasVisibleNonPanelWindow = NSApp.windows.contains {
+                $0.isVisible && !($0 is NSPanel)
+            }
+            if !hasVisibleNonPanelWindow {
+                NSApp.setActivationPolicy(.accessory)
+            }
         }
     }
 }

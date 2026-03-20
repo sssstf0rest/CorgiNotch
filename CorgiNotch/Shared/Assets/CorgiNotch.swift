@@ -70,6 +70,8 @@ class CorgiNotch {
         static let icHaptic = Image(systemName: "hand.tap.fill")
         static let icCornerRadius = Image(systemName: "app.dashed")
         static let icSeparator = Image(systemName: "line.3.horizontal")
+        static let icFileShelf = Image(systemName: "tray.and.arrow.down.fill")
+        static let icAirDrop = Image(systemName: "shareplay")
         
         static let icAlbumArt = Image(systemName: "photo")
         static let icArtist = Image(systemName: "music.mic")
@@ -111,6 +113,8 @@ class CorgiNotch {
         static let hover = IconColor.indigo
         static let haptic = IconColor.teal
         static let separator = IconColor.gray
+        static let fileShelf = IconColor.orange
+        static let airDrop = IconColor.blue
         
         static let albumArt = IconColor.blue
         static let artist = IconColor.green

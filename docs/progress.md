@@ -82,6 +82,26 @@
 | Planning docs relocation | Move planning markdown into `docs/` | Planning files live under `docs/` | `docs/task_plan.md`, `docs/findings.md`, and `docs/progress.md` created | ✓ |
 | Planning package creation | Create planning-only architecture and rebuild plan docs | Architecture and execution plan captured under `docs/` | `docs/rebuild-architecture.md` and `docs/rebuild-plan.md` created | ✓ |
 | Folder restructuring | Move all files to 4-layer architecture | Build succeeds with new structure | `xcodebuild` BUILD SUCCEEDED | ✓ |
+| Bug fixes batch | Fix 4 reported issues | Build succeeds with all fixes | `xcodebuild` BUILD SUCCEEDED | ✓ |
+
+### Phase 7: Bug Fixes
+- **Status:** complete
+- **Started:** 2026-03-20
+- Actions taken:
+  - **Issue 1 — Feature toggles**: Added `isFileShelfEnabled` and `isAirDropEnabled` to `ShelfDefaults`. Added toggle settings in `NotchSettingsView` under new "File Shelf & AirDrop" section. Gated drop destination in `NotchView`, AirDrop button in `FileShelfView`, and Shelf tab in `NotchTabSwitcherView`.
+  - **Issue 2 — File drag-and-drop broken**: Fixed `CorgiPanel` to use `.nonactivatingPanel` + `.borderless` style mask, set `canBecomeKey` to `true`, and enabled `acceptsMouseMovedEvents` so SwiftUI `dropDestination` receives drag events on the floating panel.
+  - **Issue 3 — Accessibility permission check**: Replaced inline `AXIsProcessTrusted()` call with a `@State` variable that refreshes on view appear and when the app becomes active. Added "Check Again" button and a direct link to System Settings Accessibility pane. Added tip text about Xcode rebuild invalidating the trust entry. Auto-starts `MediaKeyManager` when permissions become available.
+  - **Issue 4 — Dock icon for settings**: Settings window now switches `NSApp.setActivationPolicy(.regular)` on open and reverts to `.accessory` on close via `SettingsWindowDelegate`. Dock icon appears only while settings is open.
+- Files modified:
+  - `Features/FileShelf/Settings/ShelfDefaults.swift` (added isFileShelfEnabled, isAirDropEnabled)
+  - `Shared/Assets/CorgiNotch.swift` (added icFileShelf, icAirDrop, colors)
+  - `App/Settings/Pages/NotchSettingsView.swift` (added File Shelf & AirDrop section)
+  - `Features/NotchPresentation/Views/NotchView.swift` (gated drop destination)
+  - `Features/FileShelf/Views/FileShelfView.swift` (gated AirDrop button)
+  - `Features/FileShelf/Views/FileShelfControlView.swift` (gated Shelf tab)
+  - `Infrastructure/Windowing/CorgiWindow.swift` (fixed for drag-and-drop)
+  - `App/Settings/Pages/GeneraSettingsView.swift` (improved accessibility check)
+  - `App/Settings/CorgiSettingsView.swift` (dock icon lifecycle)
 
 ## Error Log
 | Timestamp | Error | Attempt | Resolution |

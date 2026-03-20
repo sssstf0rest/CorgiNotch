@@ -8,7 +8,7 @@
 import SwiftUI
 
 class CorgiPanel: NSPanel {
-    
+
     override init(
         contentRect: NSRect,
         styleMask: NSWindow.StyleMask,
@@ -17,36 +17,41 @@ class CorgiPanel: NSPanel {
     ) {
         super.init(
             contentRect: contentRect,
-            styleMask: styleMask,
+            styleMask: [.nonactivatingPanel, .borderless],
             backing: backing,
             defer: flag
         )
-        
+
         isFloatingPanel = true
         isOpaque = false
         titleVisibility = .hidden
         titlebarAppearsTransparent = true
         backgroundColor = .clear
         isMovable = false
-        
+
         collectionBehavior = [
             .fullScreenAuxiliary,
             .stationary,
             .canJoinAllSpaces,
             .ignoresCycle,
         ]
-        
+
         canBecomeVisibleWithoutLogin = true
         level = .mainMenu + 1
-        
+
         hasShadow = false
+
+        // Required for SwiftUI dropDestination to work on non-key panels
+        acceptsMouseMovedEvents = true
     }
-    
+
     override var canBecomeKey: Bool {
-        false
+        // Allow becoming key so SwiftUI drop destinations receive events
+        true
     }
-    
+
     override var canBecomeMain: Bool {
         false
     }
+
 }

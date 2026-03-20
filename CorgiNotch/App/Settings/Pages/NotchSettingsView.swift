@@ -18,6 +18,7 @@ struct NotchSettingsView: View {
     
     @StateObject var notchDefaults = NotchDefaults.shared
     @StateObject var mirrorDefaults = MirrorDefaults.shared
+    @StateObject var shelfDefaults = ShelfDefaults.shared
     
     var body: some View {
         Form {
@@ -169,8 +170,28 @@ struct NotchSettingsView: View {
             } header: {
                 Text("Interaction")
             }
-            
 
+            Section {
+                SettingsRow(
+                    title: "File Shelf",
+                    subtitle: "Allow dragging and dropping files onto the notch",
+                    icon: CorgiNotch.Assets.icFileShelf,
+                    color: CorgiNotch.Colors.fileShelf
+                ) {
+                    Toggle("", isOn: $shelfDefaults.isFileShelfEnabled)
+                }
+
+                SettingsRow(
+                    title: "AirDrop",
+                    subtitle: "Show AirDrop button in the file shelf view",
+                    icon: CorgiNotch.Assets.icAirDrop,
+                    color: CorgiNotch.Colors.airDrop
+                ) {
+                    Toggle("", isOn: $shelfDefaults.isAirDropEnabled)
+                }
+            } header: {
+                Text("File Shelf & AirDrop")
+            }
 
         }
         .formStyle(.grouped)

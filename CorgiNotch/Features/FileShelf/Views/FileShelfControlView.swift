@@ -8,18 +8,21 @@
 import SwiftUI
 
 struct NotchTabSwitcherView: View {
-    
+
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var expandedNotchViewModel: ExpandedNotchViewModel
-    
+    @StateObject var shelfDefaults = ShelfDefaults.shared
+
     var spacing: CGFloat
-    
+
     @Namespace private var animation
-    
+
     var body: some View {
         HStack(spacing: spacing) {
             tabButton(for: .Home)
-            tabButton(for: .Shelf)
+            if shelfDefaults.isFileShelfEnabled {
+                tabButton(for: .Shelf)
+            }
         }
         .padding(3)
         .background {
