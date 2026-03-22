@@ -31,8 +31,8 @@
 <hr>
 
 > [!NOTE]
-> **CorgiNotch** is the Thaw-maintained continuation fork of [MewNotch](https://github.com/monuk7735/mew-notch) by [monuk7735](https://github.com/monuk7735).
-> The original project appears to be inactive, so Thaw continues the vision of MewNotch by keeping the project alive, fixing bugs, ensuring compatibility with the latest macOS releases, and eventually implementing the remaining roadmap features.
+> **CorgiNotch** is a fork of [MewNotch](https://github.com/monuk7735/mew-notch) by [monuk7735](https://github.com/monuk7735).
+> The original project appears to be inactive, so this project continues the vision of MewNotch by keeping the project alive, fixing bugs, ensuring compatibility with the latest macOS releases, and eventually implementing the remaining roadmap features.
 
 ## Features
 
