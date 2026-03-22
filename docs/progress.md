@@ -94,6 +94,7 @@ CorgiNotch/
 - Replaced the deprecated foreground activation path with `NSApp.activate(ignoringOtherApps: true)` plus explicit settings-window ordering and revalidated with a successful `xcodebuild`
 - Fixed custom Audio/Brightness decrement floors so non-default step sizes no longer leave a faint non-zero system value when the HUD reaches `0%`
 - Output audio now hard-mutes at the custom-step zero floor, and brightness snaps sub-visible residual values to a real zero
+- Rewrote `README.md` to accurately present CorgiNotch as the Thaw-maintained continuation fork of MewNotch and removed unrelated placeholder project text
 
 ### 2026-03-21
 - Removed album-art click navigation and Chrome tab matching (source app launches via app icon badge only)
