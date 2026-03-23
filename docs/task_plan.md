@@ -57,3 +57,12 @@ Phase 4 complete
 - [x] Add release automation and maintainer scripts for publishing Sparkle updates
 - [x] Document the one-time setup and ongoing release process in `docs/`
 - [x] Verify the updated configuration and scripts
+
+## Follow-up Task: Updater Startup Dialog Fix
+- [x] Inspect the Sparkle startup wiring and identify why the updater error dialog appears on app launch
+- [x] Confirm the app was eagerly constructing the updater at launch and could embed an empty public key in normal builds
+- [x] Make updater startup lazy and silent on launch failures while still allowing manual update checks
+- [x] Commit the real Sparkle public key into the Xcode project defaults and relax the release script to use it by default
+- [x] Rebuild and confirm the processed app bundle embeds the feed URL and public key correctly
+- [x] Publish updater availability changes so the update action is not stuck disabled after launch
+- [x] Reconfirm the About page version source resolves the bumped bundle version

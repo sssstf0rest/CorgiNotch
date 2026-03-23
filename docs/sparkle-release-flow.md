@@ -80,7 +80,8 @@ The app reads these build settings at build time:
 https://sssstf0rest.github.io/corgi-notch/appcast.xml
 ```
 
-`SPARKLE_PUBLIC_ED_KEY` must be provided when building a release archive.
+`SPARKLE_PUBLIC_ED_KEY` is now committed in the Xcode project and embedded in normal builds by default.
+You can still override it from the environment if you ever rotate keys.
 
 ## Release Process
 
@@ -99,7 +100,6 @@ Sparkle compares `CFBundleVersion`, so the build number must always increase.
 On a Mac configured for release signing, build the archive:
 
 ```bash
-SPARKLE_PUBLIC_ED_KEY="your_public_ed25519_key" \
 ./scripts/release/build-release-archive.sh
 ```
 
@@ -114,6 +114,7 @@ Notes:
 - The script expects your local Xcode signing setup to already be able to archive a release build.
 - It verifies the archived app with `codesign --verify`.
 - If you notarize release artifacts in your distribution process, do that before uploading the final zip.
+- If you ever rotate the Sparkle key, you can temporarily override the embedded key with `SPARKLE_PUBLIC_ED_KEY=...`.
 
 ### 3. Publish a GitHub Release
 
@@ -173,7 +174,6 @@ Make sure these exist:
 That means the release archive was built without the expected feed settings. Rebuild it using:
 
 ```bash
-SPARKLE_PUBLIC_ED_KEY="your_public_ed25519_key" \
 SPARKLE_APPCAST_URL="https://sssstf0rest.github.io/corgi-notch/appcast.xml" \
 ./scripts/release/build-release-archive.sh
 ```

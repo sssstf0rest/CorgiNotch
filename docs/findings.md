@@ -106,3 +106,7 @@
 - GitHub's `macos-15` runner still uses the system Bash 3.2 shell, so workflow steps cannot rely on Bash 4 features like `mapfile`; the release-archive step must use portable text-file counting instead.
 - The first live release run showed `generate_appcast` can hang in GitHub Actions when the workflow imports the Sparkle private key and relies on implicit Keychain lookup.
 - For CI, the more reliable approach is to decode the private key file and pass it directly to `generate_appcast --ed-key-file`, avoiding Keychain interaction during appcast generation.
+- The startup "Unable to Check For Updates" dialog was caused by eager Sparkle startup from `UpdaterViewModel` combined with builds that could embed an empty `SUPublicEDKey` when the public key was only provided manually at archive time.
+- The durable fix is to commit the public EdDSA key into the Xcode build settings and start Sparkle lazily via `SPUUpdater.startUpdater(_:)`, logging launch-time failures silently and only surfacing an alert if the user explicitly requests an update check.
+- The disabled `Check for Updates` action after launch was a SwiftUI state propagation bug: the view model exposed `canCheckForUpdates` as a computed property, so the UI never observed Sparkle's availability change after the updater started on the next run loop.
+- The version label path is more reliable when it resolves once from `Bundle.main.object(forInfoDictionaryKey:)` and stores the resulting marketing/build string in the shared updater view model.

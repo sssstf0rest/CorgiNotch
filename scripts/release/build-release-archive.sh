@@ -11,8 +11,23 @@ BUILD_DIR="${BUILD_DIR:-$ROOT_DIR/build/sparkle-release}"
 DERIVED_DATA_PATH="${DERIVED_DATA_PATH:-$BUILD_DIR/DerivedData}"
 ARCHIVE_PATH="$BUILD_DIR/CorgiNotch.xcarchive"
 
-SPARKLE_PUBLIC_ED_KEY="${SPARKLE_PUBLIC_ED_KEY:?Set SPARKLE_PUBLIC_ED_KEY before building a release archive.}"
+SPARKLE_PUBLIC_ED_KEY="${SPARKLE_PUBLIC_ED_KEY:-$(
+    /usr/bin/awk -F ' = ' '
+        /SPARKLE_PUBLIC_ED_KEY = / {
+            gsub(/[\";]/, "", $2)
+            if (length($2) > 0) {
+                print $2
+                exit
+            }
+        }
+    ' "$PROJECT_PATH/project.pbxproj"
+)}"
 SPARKLE_APPCAST_URL="${SPARKLE_APPCAST_URL:-https://sssstf0rest.github.io/corgi-notch/appcast.xml}"
+
+if [[ -z "$SPARKLE_PUBLIC_ED_KEY" ]]; then
+    echo "Unable to determine SPARKLE_PUBLIC_ED_KEY. Set it in the environment or Xcode project before building a release archive." >&2
+    exit 1
+fi
 
 VERSION="${VERSION:-$(
     /usr/bin/awk -F ' = ' '

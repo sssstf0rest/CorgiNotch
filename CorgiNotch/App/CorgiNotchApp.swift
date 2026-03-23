@@ -6,14 +6,11 @@
 //
 
 import SwiftUI
-import Sparkle
 
 @main
 struct CorgiNotchApp: App {
 
     @NSApplicationDelegateAdaptor(CorgiAppDelegate.self) var corgiAppDelegate
-
-    @StateObject private var updaterViewModel: UpdaterViewModel = .shared
 
     @ObservedObject private var appDefaults = AppDefaults.shared
 

@@ -105,6 +105,11 @@ CorgiNotch/
 - Verified with a local Debug build that the processed app bundle contains the configured `SUFeedURL` and `SUPublicEDKey`
 - Fixed the release workflow on GitHub Actions by removing the Bash-4-only `mapfile` call from the archive download step; the `macos-15` runner uses Bash 3.2, so the workflow now uses a portable archive list file instead
 - Fixed the release workflow again after the first live run hung in `generate_appcast`; CI now decodes the Sparkle private key to a temporary file and passes it explicitly with `--ed-key-file` instead of importing it into Keychain first
+- Embedded the real Sparkle public EdDSA key in the Xcode project defaults, so normal app builds are no longer misconfigured when they are launched outside the release-archive script
+- Changed updater startup to be lazy and non-intrusive on app launch; Sparkle now starts through `SPUUpdater.startUpdater(_:)` and only shows a failure alert when the user explicitly clicks `Check for Updates`
+- Relaxed `scripts/release/build-release-archive.sh` so it can reuse the committed public key by default instead of requiring `SPARKLE_PUBLIC_ED_KEY` to be passed every time
+- Published updater availability as observable state so the `Check for Updates` button can enable itself after Sparkle finishes starting instead of staying stuck disabled
+- Moved the displayed app version string to a stored bundle-info lookup path in the shared updater view model so the About page reflects `2.2.1 (221)`
 
 ### 2026-03-21
 - Removed album-art click navigation and Chrome tab matching (source app launches via app icon badge only)
