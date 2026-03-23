@@ -127,14 +127,14 @@ class NotchManager {
 
             windows[screen] = panel
             
-            if addToSeparateSpace && notchDefaults.shownOnLockScreen {
-                WindowManager.shared?.moveToLockScreen(panel)
-            }
-            
             if isScreenLocked && !notchDefaults.shownOnLockScreen {
                 panel.orderOut(nil)
             } else {
                 panel.orderFrontRegardless()
+            }
+            
+            if addToSeparateSpace && notchDefaults.shownOnLockScreen {
+                WindowManager.shared?.moveToLockScreen(panel)
             }
         }
         

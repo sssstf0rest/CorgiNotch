@@ -73,3 +73,16 @@ Phase 4 complete
 - [x] Make notch panels honor the toggle when deciding login-window visibility and lock-screen placement
 - [x] Hide the notch while locked when the toggle is off, then refresh it after unlock
 - [x] Rebuild and confirm the windowing changes compile cleanly
+
+## Follow-up Task: Updater Button Regression
+- [x] Inspect the current updater availability path and confirm why the button is disabled again
+- [x] Identify the eager Sparkle startup in `UpdaterViewModel.init()` as the regression point
+- [x] Restore true lazy updater startup so Sparkle only starts when the user requests an update check
+- [x] Observe Sparkle's `canCheckForUpdates` property and only mirror it after the updater has started
+- [x] Rebuild and confirm the updater flow compiles cleanly
+
+## Follow-up Task: Lock Screen Re-enable Regression
+- [x] Inspect why `Show on Lock Screen` can be turned off but not turned back on
+- [x] Confirm the regression comes from moving a newly recreated panel to the lock-screen space before ordering it front
+- [x] Restore the original order so the panel is realized before `moveToLockScreen` runs
+- [x] Rebuild and confirm the lock-screen path compiles cleanly

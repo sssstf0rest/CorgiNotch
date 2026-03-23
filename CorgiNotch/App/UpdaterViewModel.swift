@@ -16,6 +16,7 @@ final class UpdaterViewModel: NSObject, ObservableObject, SPUStandardUserDriverD
     @Published private(set) var currentVersion = ""
     
     private var updaterController: SPUStandardUpdaterController!
+    private var canCheckObservation: NSKeyValueObservation?
     private var hasStartedUpdater = false
     
     override init() {
@@ -26,7 +27,18 @@ final class UpdaterViewModel: NSObject, ObservableObject, SPUStandardUserDriverD
             updaterDelegate: nil,
             userDriverDelegate: self
         )
-        _ = startUpdaterIfNeeded(showErrorToUser: false)
+        canCheckObservation = updaterController.updater.observe(
+            \.canCheckForUpdates,
+            options: [.initial, .new]
+        ) { [weak self] updater, _ in
+            DispatchQueue.main.async {
+                self?.refreshUpdaterAvailability(using: updater)
+            }
+        }
+    }
+    
+    deinit {
+        canCheckObservation?.invalidate()
     }
     
     var supportsGentleScheduledUpdateReminders: Bool {
@@ -82,13 +94,15 @@ final class UpdaterViewModel: NSObject, ObservableObject, SPUStandardUserDriverD
         alert.runModal()
     }
     
-    private func refreshUpdaterAvailability() {
+    private func refreshUpdaterAvailability(
+        using updater: SPUUpdater? = nil
+    ) {
         guard hasStartedUpdater else {
             canCheckForUpdates = true
             return
         }
         
-        canCheckForUpdates = updaterController.updater.canCheckForUpdates
+        canCheckForUpdates = (updater ?? updaterController.updater).canCheckForUpdates
     }
     
     private static func makeCurrentVersionString() -> String {

@@ -86,6 +86,12 @@ CorgiNotch/
 ## Changelog
 
 ### 2026-03-23
+- Fixed the lock-screen toggle re-enable regression so `Show on Lock Screen` can be turned back on after being turned off
+- Restored the correct window ordering flow in `NotchManager`: front the panel first, then move it into the lock-screen space
+- Verified the re-enable fix with `xcodebuild -project CorgiNotch.xcodeproj -scheme CorgiNotch -configuration Debug -derivedDataPath /tmp/corgi-notch-lockscreen-toggle CODE_SIGNING_ALLOWED=NO build`
+- Fixed the updater availability regression so `Check for Updates` does not start Sparkle eagerly and get stuck disabled again
+- `UpdaterViewModel` now keeps the action enabled until the first user-initiated update check, then follows Sparkle's KVO-compliant `canCheckForUpdates` state
+- Verified the updater fix with `xcodebuild -project CorgiNotch.xcodeproj -scheme CorgiNotch -configuration Debug -derivedDataPath /tmp/corgi-notch-updater-regression CODE_SIGNING_ALLOWED=NO build`
 - Bumped the project version for the next Sparkle update test release from `2.2.1 (221)` to `2.2.2 (222)`
 - Fixed the `Show on Lock Screen` toggle so disabling it actually keeps the notch off the lock screen
 - The fix now configures `canBecomeVisibleWithoutLogin` from the setting, removes the disabled path from the dedicated notch space, and hides/restores windows on lock/unlock notifications

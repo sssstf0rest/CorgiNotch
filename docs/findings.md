@@ -123,3 +123,20 @@
 ## Lock Screen Toggle Verification
 - `xcodebuild -project CorgiNotch.xcodeproj -scheme CorgiNotch -configuration Debug -derivedDataPath /tmp/corgi-notch-lockscreen CODE_SIGNING_ALLOWED=NO build` succeeded after the windowing fix.
 - I did not run a live lock/unlock cycle from this environment, so the remaining validation is on-device: toggle `Show on Lock Screen` off, lock the Mac, and confirm the notch no longer appears until the screen is unlocked again.
+
+## Lock Screen Toggle Re-enable Regression
+- The first lock-screen fix introduced a follow-up regression: `NotchManager.refreshNotches()` started calling `moveToLockScreen(panel)` before `orderFrontRegardless()`.
+- That reversed the original order of operations and meant a newly recreated panel could be moved into the lock-screen space before it was fully realized by AppKit.
+- The practical effect was asymmetric behavior:
+  - turning `Show on Lock Screen` off worked
+  - turning it back on could fail, leaving the notch absent on the lock screen
+- Restoring the original order fixes the issue: front/order the panel first, then move it into the lock-screen space.
+
+## Updater Availability Regression
+- The greyed-out `Check for Updates` state regressed because `UpdaterViewModel` was still calling `startUpdaterIfNeeded(showErrorToUser: false)` from its initializer.
+- That meant Sparkle could begin its own startup/update cycle as soon as the shared updater model was created, which in turn could drive `canCheckForUpdates` to `false` before the user ever clicked the button.
+- The intended behavior for this app is simpler: keep the action enabled until the user explicitly asks to check for updates, then start Sparkle on demand.
+- Sparkle already documents `SPUUpdater.canCheckForUpdates` as KVO-compliant, so the clean fix is:
+  - remove eager startup from `UpdaterViewModel.init()`
+  - observe `canCheckForUpdates` directly
+  - only mirror Sparkle's disabled state after the updater has actually been started by a user-initiated action
