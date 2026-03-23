@@ -23,8 +23,6 @@
 
 <br/>
 
-> Preview screenshot coming soon. The fork is currently focused on stability, bug fixing, and macOS compatibility before refreshed preview assets are published.
-
 </div>
 </div>
 
