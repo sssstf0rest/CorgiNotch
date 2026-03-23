@@ -103,6 +103,7 @@ CorgiNotch/
 - Corrected the workflow so it stages the new archive outside `gh-pages` before copying it in, which avoids false multi-archive failures after the first published update
 - Verified with a local Debug build that the processed app bundle contains the configured `SUFeedURL` and `SUPublicEDKey`
 - Fixed the release workflow on GitHub Actions by removing the Bash-4-only `mapfile` call from the archive download step; the `macos-15` runner uses Bash 3.2, so the workflow now uses a portable archive list file instead
+- Fixed the release workflow again after the first live run hung in `generate_appcast`; CI now decodes the Sparkle private key to a temporary file and passes it explicitly with `--ed-key-file` instead of importing it into Keychain first
 
 ### 2026-03-21
 - Removed album-art click navigation and Chrome tab matching (source app launches via app icon badge only)

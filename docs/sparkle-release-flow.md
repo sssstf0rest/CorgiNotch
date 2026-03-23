@@ -132,7 +132,8 @@ When the release is published, `.github/workflows/publish-sparkle-appcast.yml`:
 1. downloads the `CorgiNotch*.zip` asset from the GitHub release
    - it stages the new archive in a temporary directory first, then copies it into `gh-pages` so older archives do not break release detection
 2. verifies the app bundle embeds the expected Sparkle public key and feed URL
-3. imports the Sparkle private key from repository secrets
+3. decodes the Sparkle private key from repository secrets into a temporary file
+   - it then passes that file to `generate_appcast --ed-key-file`, which is more reliable for CI than depending on Keychain access
 4. copies the archive into the `gh-pages` update site
 5. writes a matching markdown release notes file
 6. runs `generate_appcast`

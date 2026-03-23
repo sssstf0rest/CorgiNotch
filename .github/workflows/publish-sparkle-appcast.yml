@@ -46,10 +46,9 @@ jobs:
         run: |
           ./scripts/release/fetch-sparkle-tools.sh "$RUNNER_TEMP/sparkle"
 
-      - name: Import Sparkle private key
+      - name: Decode Sparkle private key
         run: |
           echo "$SPARKLE_PRIVATE_ED_KEY_BASE64" | base64 --decode > "$RUNNER_TEMP/sparkle_private_key"
-          "$RUNNER_TEMP/sparkle/bin/generate_keys" -f "$RUNNER_TEMP/sparkle_private_key" >/dev/null
 
       - name: Prepare gh-pages working tree
         run: |
@@ -137,7 +136,9 @@ jobs:
 
       - name: Generate Sparkle appcast
         run: |
-          "$RUNNER_TEMP/sparkle/bin/generate_appcast" "$RUNNER_TEMP/appcast-site"
+          "$RUNNER_TEMP/sparkle/bin/generate_appcast" \
+            --ed-key-file "$RUNNER_TEMP/sparkle_private_key" \
+            "$RUNNER_TEMP/appcast-site"
 
       - name: Publish gh-pages branch
         run: |

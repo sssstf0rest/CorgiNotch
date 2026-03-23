@@ -104,3 +104,5 @@
 - The implemented workflow has to download the new release archive into a temporary directory before copying it into `gh-pages`; otherwise older `CorgiNotch*.zip` files already stored in `gh-pages` would break the "exactly one release asset" validation on later releases.
 - A local verification build confirmed the processed app bundle now embeds the configured `SUFeedURL` and `SUPublicEDKey`, so the new build-setting wiring for Sparkle is functioning.
 - GitHub's `macos-15` runner still uses the system Bash 3.2 shell, so workflow steps cannot rely on Bash 4 features like `mapfile`; the release-archive step must use portable text-file counting instead.
+- The first live release run showed `generate_appcast` can hang in GitHub Actions when the workflow imports the Sparkle private key and relies on implicit Keychain lookup.
+- For CI, the more reliable approach is to decode the private key file and pass it directly to `generate_appcast --ed-key-file`, avoiding Keychain interaction during appcast generation.
