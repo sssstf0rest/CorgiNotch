@@ -137,7 +137,6 @@ This project is licensed under the [GPLv3 License](LICENSE).
 ## Acknowledgments
 
 - Forked from [MewNotch](https://github.com/monuk7735/mew-notch) by [monuk7735](https://github.com/monuk7735).
-- Maintained by [sssstf0rest](https://github.com/sssstf0rest) as an active continuation focused on maintenance, bug fixes, and modern macOS compatibility.
 - Built with Swift, SwiftUI, AppKit, and Objective-C system bridges.
 
 Thanks to the projects and authors whose code or ideas helped shape this work:
