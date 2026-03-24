@@ -8,10 +8,10 @@
             <sparkle:version>224</sparkle:version>
             <sparkle:shortVersionString>2.2.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://sssstf0rest.github.io/corgi-notch/CorgiNotch-2.2.4.zip" length="5442652" type="application/octet-stream" sparkle:edSignature="GOdi2LMWlMw5gY/l6C2+dwar81ClWjdRY/DFfxhGREyaxZEvURmhSu91S58e4s1t6c4Gui9gfQ42WBlzs9V3CQ=="/>
+            <enclosure url="https://sssstf0rest.github.io/CorgiNotch/CorgiNotch-2.2.4.zip" length="5442645" type="application/octet-stream" sparkle:edSignature="z7EXvcMrW1NxpfCc53Y/38HmijzHimRLBo2ItKECTzHMAFUbnAIuc84cVyx4/0xfaY0QF+mayJ9UdbrscDIIAQ=="/>
             <sparkle:deltas>
-                <enclosure url="https://sssstf0rest.github.io/corgi-notch/CorgiNotch224-223.delta" sparkle:deltaFrom="223" length="1954" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="860336" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="fiX0p+hJqahNT2oiZh5tNWScPr7sc1nVPA+yJdcE/bD3d3b1b9lmWEnCCs7ZIKtcrLI3eu7kPYej/HhkjPfaBA=="/>
-                <enclosure url="https://sssstf0rest.github.io/corgi-notch/CorgiNotch224-220.delta" sparkle:deltaFrom="220" length="312434" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="860336" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="mqwZLKxQQ9oV0OqkGtVDzi8EyLD8iE0zL0FQSyyUUdipNV60gSlcKnwzT6W903FPf0gJDgPbTtT7SSJTrncfCA=="/>
+                <enclosure url="https://sssstf0rest.github.io/CorgiNotch/CorgiNotch224-223.delta" sparkle:deltaFrom="223" length="1954" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="860336" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="fiX0p+hJqahNT2oiZh5tNWScPr7sc1nVPA+yJdcE/bD3d3b1b9lmWEnCCs7ZIKtcrLI3eu7kPYej/HhkjPfaBA=="/>
+                <enclosure url="https://sssstf0rest.github.io/CorgiNotch/CorgiNotch224-220.delta" sparkle:deltaFrom="220" length="312434" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="860336" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="mqwZLKxQQ9oV0OqkGtVDzi8EyLD8iE0zL0FQSyyUUdipNV60gSlcKnwzT6W903FPf0gJDgPbTtT7SSJTrncfCA=="/>
             </sparkle:deltas>
         </item>
         <item>
