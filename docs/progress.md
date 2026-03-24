@@ -85,6 +85,10 @@ CorgiNotch/
 
 ## Changelog
 
+### 2026-03-24
+- Normalized macOS metadata ignores by explicitly ignoring `.DS_Store` files repo-wide
+- Removed tracked `.DS_Store` files from the git index so they stop appearing in repo status while remaining on disk locally
+
 ### 2026-03-23
 - Updated hard-coded GitHub and GitHub Pages URLs after renaming the repository from `corgi-notch` to `CorgiNotch`
 - Aligned the Sparkle appcast URL in Xcode build settings, release scripts, workflow config, and repo documentation with the new Pages path
