@@ -106,3 +106,11 @@ Phase 4 complete
 - [x] Update the Sparkle feed URL in build settings, release scripts, and workflow configuration
 - [x] Update README and release docs links to `sssstf0rest/CorgiNotch`
 - [ ] Re-run the Sparkle publishing flow after the rename and confirm the new Pages URL serves `appcast.xml`
+
+## Follow-up Task: Calendar Feature Research
+- [x] Create a dedicated feature branch for calendar development
+- [x] Study `DynamicNotchKit` and confirm it is notch/windowing reference material rather than a calendar implementation source
+- [x] Study `boring.notch` calendar implementation, especially `CalendarManager`, `CalendarServiceProviding`, `BoringCalendar`, notch integration, and settings behavior
+- [x] Map the calendar feature onto `CorgiNotch`'s current expanded-item architecture
+- [x] Write a concrete integration plan in `docs/calendar-feature-plan.md`
+- [ ] Start implementation with a `Calendar` expanded item, EventKit service, and settings flow

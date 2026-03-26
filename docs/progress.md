@@ -85,6 +85,13 @@ CorgiNotch/
 
 ## Changelog
 
+### 2026-03-26
+- Created the branch `codex/calendar-feature` for Calendar feature development
+- Studied `DynamicNotchKit` and confirmed it is a notch/windowing reference, not a calendar implementation source
+- Studied `boring.notch` calendar code paths, including `CalendarManager`, `CalendarServiceProviding`, `BoringCalendar`, notch integration, and calendar settings
+- Mapped the feature onto `CorgiNotch`'s current expanded-item architecture and wrote the plan in `docs/calendar-feature-plan.md`
+- Recommended a compact EventKit-based `Calendar` expanded item for v1, with reminders deferred to a later parity pass
+
 ### 2026-03-24
 - Normalized macOS metadata ignores by explicitly ignoring `.DS_Store` files repo-wide
 - Removed tracked `.DS_Store` files from the git index so they stop appearing in repo status while remaining on disk locally

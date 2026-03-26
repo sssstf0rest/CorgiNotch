@@ -174,3 +174,35 @@
   - README badges, release links, and clone instructions
   - Sparkle setup documentation
 - These references need to use the new repository path consistently; otherwise release builds can embed the wrong feed URL and Sparkle update checks will point at the old Pages site.
+
+## Calendar Feature Research
+- `DynamicNotchKit` does not contain a calendar feature. It is a notch presentation framework whose value here is structural reference only:
+  - custom panel/window behavior
+  - SwiftUI content hosting inside a notch surface
+  - notchless fallback concepts
+- `boring.notch` is the meaningful calendar reference. Its calendar feature is implemented as a real product module, not a toy example, with:
+  - EventKit-backed service abstraction
+  - `CalendarManager` singleton observable model
+  - event + reminder fetching
+  - per-calendar selection state
+  - permission-aware settings
+  - expanded-notch integration
+- The `boring.notch` structure is richer than `CorgiNotch` currently needs. It mixes reminders, calendar selection, privacy-state UX, and event deep-linking into a single feature set.
+- `CorgiNotch`'s current expanded architecture is much simpler:
+  - one enum-backed expanded item list
+  - one expanded settings page with per-item settings
+  - one `NotchHomeView` that horizontally composes expanded items
+- Because of that difference, the recommended `CorgiNotch` approach is:
+  - add calendar as a second `ExpandedNotchItem`
+  - build an EventKit service in `Infrastructure`
+  - keep the first version compact and event-focused
+  - defer reminders parity until the core events flow is stable
+
+## EventKit API Notes
+- Apple’s current EventKit guidance for macOS 14+ is to use:
+  - `requestFullAccessToEvents()`
+  - `requestFullAccessToReminders()` if reminders are added later
+- The matching privacy keys are:
+  - `NSCalendarsFullAccessUsageDescription`
+  - `NSRemindersFullAccessUsageDescription`
+- Apple’s technote notes that the legacy usage strings can act as fallback on macOS 14+, but the cleaner repo direction is to add the new explicit keys because `CorgiNotch` already targets macOS 14+.
